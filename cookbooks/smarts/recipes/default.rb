@@ -21,25 +21,28 @@ response_file = "SAM_CONSOLE_SUITE-response.txt"
 #yum_package "compat-libstdc++-33 >= 3.2.3-47.3.x86_64"
 #yum_package "compat-libstdc++-33.x86_64"
 
+yum_package "bc"
 yum_package "glibc" do
+  version ">= 2.2.4-3"	
   arch "386"	
-  action :upgrade
+  action :install
 end
 
 yum_package "glibc" do
+  version ">= 2.2.4-3"	
   arch "x86_64"	
   action :upgrade
 end
 
-yum_package "glibc-common" do
-  action :upgrade
-end
+yum_package "glibc-common"
 
 yum_package "compat-libstdc++-33" do
+  version ">= 3.2.3-47.3"	
   arch "x86_64"	
   action :upgrade
 end
 yum_package "compat-libstdc++-33" do
+  version ">= 3.2.3-47.3"	
   arch "i686"	
   action :upgrade
 end
