@@ -10,11 +10,39 @@
 install_media_file = "setup-SAM-9_2_1_0-linux64.bin"
 response_file = "SAM_CONSOLE_SUITE-response.txt"
 
-yum_package "glibc >= 2.2.4-32.i386"
-yum_package "glibc >= 2.2.4-32.x86_64"
-yum_package "glibc-common >= 2.2.4-32"
-yum_package "icompat-libstdc++-33 >= 3.2.3-47.3.i686"
-yum_package "icompat-libstdc++-33 >= 3.2.3-47.3.x86_64"
+#yum_package "glibc >= 2.2.4-32.i386"
+#yum_package "glibc.i386"
+#yum_package "glibc >= 2.2.4-32.x86_64"
+#yum_package "glibc.x86_64"
+#yum_package "glibc-common >= 2.2.4-32"
+#yum_package "glibc-common"
+#yum_package "compat-libstdc++-33 >= 3.2.3-47.3.i686"
+#yum_package "compat-libstdc++-33.i686"
+#yum_package "compat-libstdc++-33 >= 3.2.3-47.3.x86_64"
+#yum_package "compat-libstdc++-33.x86_64"
+
+yum_package "glibc" do
+  arch "386"	
+  action :upgrade
+end
+
+yum_package "glibc" do
+  arch "x86_64"	
+  action :upgrade
+end
+
+yum_package "glibc-common" do
+  action :upgrade
+end
+
+yum_package "compat-libstdc++-33" do
+  arch "x86_64"	
+  action :upgrade
+end
+yum_package "compat-libstdc++-33" do
+  arch "i686"	
+  action :upgrade
+end
 
 template "SAM_CONSOLE_SUITE-response.txt" do
   path "#{Chef::Config[:file_cache_path]}/SAM_CONSOLE_SUITE-response.txt"
