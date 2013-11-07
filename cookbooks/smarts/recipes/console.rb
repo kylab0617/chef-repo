@@ -1,13 +1,13 @@
 #
 # Cookbook Name:: smarts
-# Recipe:: sam
+# Recipe:: console
 #
 # Copyright 2013, YOUR_COMPANY_NAME
 #
 # All rights reserved - Do Not Redistribute
 #
 
-product_name = "SAM"
+product_name = "CONSOLE"
 install_media_file = "setup-#{product_name}-9_2_1_0-linux64.bin"
 response_file = "#{product_name}-response.txt"
 install_root_dir = node['smarts']['gereral']['install_root_dir']
