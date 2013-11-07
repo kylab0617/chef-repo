@@ -5,5 +5,6 @@ run_list [
   "recipe[smarts::sam]",
   "recipe[smarts::console]",
   "recipe[smarts::ip]",
-  "recipe[smarts::esm]"
+  "recipe[smarts::esm]",
+  "recipe[smarts::npm]"
 ]
