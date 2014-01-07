@@ -26,10 +26,6 @@ v1.12.0
 ### New Feature
 - **[COOK-3714](https://tickets.opscode.com/browse/COOK-3714)** - Powershell features provider and delete support.
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 25a33c42826baa76f1167c6661193a4d9a726c59
 v1.11.0
 -------
 ### Improvement
