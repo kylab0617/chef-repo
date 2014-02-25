@@ -100,8 +100,7 @@
 #
 
 # InCharge IP Availability ,Performance and Discovery Managers
--P AM_PM_DISCOVERY.active=true
-
+-P AM_PM_DISCOVERY.active=<%=node['smarts']['IP']['AM_PM_DISCOVERY']['active']%>
 
 #
 # SERVICE SELECTION PANEL
@@ -112,7 +111,7 @@
 #
 
 # InCharge Broker 
--P SERVICE_BROKER.active=false
+-P SERVICE_BROKER.active=<%=node['smarts']['IP']['SERVICE_BROKER']['active']%>
 
 # Availability Manager Server
 -P SERVICE_AM.active=<%=node['smarts']['IP']['SERVICE_AM']['active']%>

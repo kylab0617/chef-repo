@@ -8,8 +8,8 @@
 #
 
 centos_mirror = "ftp://ftp.muug.mb.ca"
-rpm_loc_x86_64 = "/mirror/centos/6.4/os/x86_64/Packages"
-rpm_loc_386 = "/mirror/centos/6.4/os/i386/Packages"
+rpm_loc_x86_64 = "/mirror/centos/6/os/x86_64/Packages"
+rpm_loc_386 = "/mirror/centos/6/os/i386/Packages"
 
 case node[:platform]
 when "redhat"
@@ -53,7 +53,7 @@ when "redhat"
       #   ignore_failure true
       # end
     end
-when "fedora"
+when "fedora", "centos"
   yum_package "bc"
   yum_package "glibc" do
     version "2.2.4-32"  
@@ -73,6 +73,26 @@ when "fedora"
   end
   yum_package "compat-libstdc++-33" do
     version "3.2.3.-47.3" 
+    arch "i686" 
+    action :upgrade
+  end
+  yum_package "libstdc++" do
+    version "4.4.6-3.el6" 
+    arch "i686" 
+    action :upgrade
+  end
+  yum_package "libXi" do
+    version "1.3-3.el6" 
+    arch "i686" 
+    action :upgrade
+  end
+  yum_package "libXext" do
+    version "1.1-3.el6" 
+    arch "i686" 
+    action :upgrade
+  end
+  yum_package "libXtst" do
+    version "1.0.99.2-3.el6" 
     arch "i686" 
     action :upgrade
   end

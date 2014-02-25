@@ -1,7 +1,7 @@
 name             'smarts'
-maintainer       'YOUR_COMPANY_NAME'
-maintainer_email 'YOUR_EMAIL'
+maintainer       'CompuCom'
+maintainer_email 'olaf.luetkehoelter@compucom.com'
 license          'All rights reserved'
-description      'Installs/Configures smarts'
+description      'Installs/Configures EMC SMARTS'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.1.0'
+version          '0.3.2'

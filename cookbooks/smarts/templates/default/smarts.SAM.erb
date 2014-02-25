@@ -77,15 +77,13 @@
 
 #
 # TARGET DIRECTORY
-# Any custom target directory MUST end with '/CONSOLE'
+# Any custom target directory MUST end with '/SAM'
 #
-#-P SAM_CONSOLE_SUITE.installLocation=C:\InCharge\CONSOLE
--P SAM_SUITE.installLocation=/opt/InCharge/SAM
+-P SAM_SUITE.installLocation=<%=node['smarts']['gereral']['install_root_dir']%>/SAM
 
 #
 # LOGFILE DIRECTORY
 #
-#-log # !C:/temp/SAM_CONSOLE_SUITE.log @ALL
 -log # !/tmp/SAM_SUITE.log @ALL
 
 #
@@ -98,16 +96,21 @@
 # If your operating system is not supported for a given product, the
 # installation will skip the product.
 #
+-P SAM_SUITE.active=<%=node['smarts']['SAM']['SAM_SUITE']['active']%>
 
-
--P SAM_SUITE.active=true
-
--P SERVICE_BROKER.active=true
--P SERVICE_SAM.active=true
--P SERVICE_MBIM.active=true
--P SERVICE_ICOI.active=true
--P SERVICE_TRAP.active=true
--P SERVICE_UIM.active=true
+#
+# SERVICE SELECTION PANEL
+#
+# Customizable services for installation
+# To enable the installation of services, 
+# change the value from 'false' to 'true'
+#
+-P SERVICE_BROKER.active=<%=node['smarts']['SAM']['SERVICE_BROKER']['active']%>
+-P SERVICE_SAM.active=<%=node['smarts']['SAM']['SERVICE_SAM']['active']%>
+-P SERVICE_MBIM.active=<%=node['smarts']['SAM']['SERVICE_MBIM']['active']%>
+-P SERVICE_ICOI.active=<%=node['smarts']['SAM']['SERVICE_ICOI']['active']%>
+-P SERVICE_TRAP.active=<%=node['smarts']['SAM']['SERVICE_TRAP']['active']%>
+-P SERVICE_UIM.active=<%=node['smarts']['SAM']['SERVICE_UIM']['active']%>
 
 #
 # BROKER CONFIGURATION PANEL
@@ -115,13 +118,13 @@
 # Set broker host and port.  Change the broker port and location
 # to your installed broker on your network if required.
 #
--W SMARTS_BCP.brokerHost=localhost
--W SMARTS_BCP.brokerPort=426
+-W SMARTS_BCP.brokerHost=<%=node['smarts']['broker']['host']%>
+-W SMARTS_BCP.brokerPort=<%=node['smarts']['broker']['port']%>
 
 #
 # If brokerHost=localhost, change this value to the network
 # host name.  This property is for HOSTNAME in the URL for
 # Java Web Start configuration for GLOBAL CONSOLE.
 #
--W SMARTS_BCP.brokerHostResolution=localhost
+-W SMARTS_BCP.brokerHostResolution=<%=node['smarts']['broker']['brokerHostResolution']%>
 
