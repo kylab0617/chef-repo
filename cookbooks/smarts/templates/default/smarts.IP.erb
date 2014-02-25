@@ -1,12 +1,12 @@
 #
-#			    SAM CONSOLE SUITE
+#                          IP MANAGEMENT SUITE
 #                             RESPONSE FILE
 #
 # INTRODUCTION
 #
 #      This file contains the configurable parameters available for 
-# running the installation of  Service Assurance Management CONSOLE silently.
-# A Silent Installation allows you to install the suite, or a subset
+# running the installation of IP Management Suite silently.  A
+# Silent Installation allows you to install the suite, or a subset
 # of products in the suite, without any human intervention.  The response
 # file mimics the way one would select options in the installation UI. 
 #
@@ -20,16 +20,16 @@
 # installing the products with the GUI Wizard.  However, your 
 # organization may have policies, either security-based or other,
 # which disallows the transmission of the X protocol.  The silent 
-# installation allows installation of Service Assurance Management CONSOLE
-# while respecting those constraints.
+# installation allows installation of IP Management Suite while 
+# respecting those constraints.
 #
 # METHOD OF INVOCATION FOR INSTALLATION
 #
 #       Silent installation may be invoked from only the command-line 
 # environment.  The path to the response file must be FULLY QUALIFIED.
 #
-#       setup-<os>.[bin|exe] -options <path_to_response_file>/<response_file>
-# e.g.  setup-solaris.bin -options /home/SAM_CONSOLE_SUITE-response.txt
+#       setup-IP-<version>-<os>.[bin|exe] -options <path_to_response_file>/<response_file>
+# e.g.  setup-IP-<version>-solaris.bin -options /home/IP_NETWORK_SUITE-response.txt
 #
 # METHOD OF INVOCATION FOR SILENT UNINSTALLATION
 #
@@ -53,6 +53,7 @@
 ######################################################################
 -silent
 -G replaceNewerResponse="Yes to All"
+-W SETUP_TYPES.active=false
 -W SETUP_TYPES_ADMIN.active=false
 -W bean7.active=false
 ######################################################################
@@ -74,19 +75,18 @@
 #-W MERGE_OPTION_UPGRADE.MERGE_CHOICE=MERGE
 #-W MERGE_OPTION_UPGRADE.MERGE_CHOICE=NOMERGE
 
-
 #
 # TARGET DIRECTORY
-# Any custom target directory MUST end with '/CONSOLE'
+# Any custom target directory MUST end with '/IP'
 #
-#-P SAM_CONSOLE_SUITE.installLocation=C:\InCharge\CONSOLE
--P SAM_SUITE.installLocation=/opt/InCharge/SAM
+#-P IP_NETWORK_SUITE.installLocation=C:\InCharge\IP
+-P IP_NETWORK_SUITE.installLocation=<%=node['smarts']['gereral']['install_root_dir']%>/IP
 
 #
 # LOGFILE DIRECTORY
 #
-#-log # !C:/temp/SAM_CONSOLE_SUITE.log @ALL
--log # !/tmp/SAM_SUITE.log @ALL
+#-log # !C:/temp/IP_NETWORK_SUITE.log @ALL
+-log # !/tmp/IP_NETWORK_SUITE.log @ALL
 
 #
 # PRODUCT SELECTION PANEL
@@ -99,30 +99,40 @@
 # installation will skip the product.
 #
 
+# InCharge IP Availability ,Performance and Discovery Managers
+-P AM_PM_DISCOVERY.active=true
 
--P SAM.active=true
--P SAM_SUITE.active=true
 
--P SERVICE_BROKER.active=true
--P SERVICE_SAM.active=true
--P SERVICE_MBIM.active=true
--P SERVICE_ICOI.active=true
--P SERVICE_TRAP.active=true
--P SERVICE_UIM.active=true
+#
+# SERVICE SELECTION PANEL
+#
+# Customizable services for installation
+# To enable the installation of services, 
+# change the value from 'false' to 'true'
+#
+
+# InCharge Broker 
+-P SERVICE_BROKER.active=false
+
+# Availability Manager Server
+-P SERVICE_AM.active=<%=node['smarts']['IP']['SERVICE_AM']['active']%>
+
+# Performance Manager Server
+-P SERVICE_PM.active=<%=node['smarts']['IP']['SERVICE_PM']['active']%>
+
+# Availability and Performance Manager Server
+-P SERVICE_AM_PM.active=<%=node['smarts']['IP']['SERVICE_AM_PM']['active']%>
+
+# Configuration Manager Server.
+-P SERVICE_CM.active=<%=node['smarts']['IP']['SERVICE_CM']['active']%>
 
 #
 # BROKER CONFIGURATION PANEL
 #
-# Set broker host and port.  Change the broker port and location
-# to your installed broker on your network if required.
+# Set broker host and port.  If installing the broker service,
+# change the PORT ONLY if need be.  Else, change the broker location
+# to your installed broker on your network.
 #
--W SMARTS_BCP.brokerHost=localhost
--W SMARTS_BCP.brokerPort=426
-
-#
-# If brokerHost=localhost, change this value to the network
-# host name.  This property is for HOSTNAME in the URL for
-# Java Web Start configuration for GLOBAL CONSOLE.
-#
--W SMARTS_BCP.brokerHostResolution=localhost
+-W SMARTS_BCP.brokerHost=<%=node['smarts']['broker']['host']%>
+-W SMARTS_BCP.brokerPort=<%=node['smarts']['broker']['port']%>
 

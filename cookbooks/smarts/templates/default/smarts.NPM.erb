@@ -1,11 +1,11 @@
 #
-#			    SAM CONSOLE SUITE
+#			    NPM SUITE
 #                             RESPONSE FILE
 #
 # INTRODUCTION
 #
 #      This file contains the configurable parameters available for 
-# running the installation of  Service Assurance Management CONSOLE silently.
+# running the installation of  Service Assurance Management NPM silently.
 # A Silent Installation allows you to install the suite, or a subset
 # of products in the suite, without any human intervention.  The response
 # file mimics the way one would select options in the installation UI. 
@@ -20,7 +20,7 @@
 # installing the products with the GUI Wizard.  However, your 
 # organization may have policies, either security-based or other,
 # which disallows the transmission of the X protocol.  The silent 
-# installation allows installation of Service Assurance Management CONSOLE
+# installation allows installation of Service Assurance Management NPM
 # while respecting those constraints.
 #
 # METHOD OF INVOCATION FOR INSTALLATION
@@ -29,7 +29,7 @@
 # environment.  The path to the response file must be FULLY QUALIFIED.
 #
 #       setup-<os>.[bin|exe] -options <path_to_response_file>/<response_file>
-# e.g.  setup-solaris.bin -options /home/SAM_CONSOLE_SUITE-response.txt
+# e.g.  setup-solaris.bin -options /home/SAM_NPM_SUITE-response.txt
 #
 # METHOD OF INVOCATION FOR SILENT UNINSTALLATION
 #
@@ -77,16 +77,16 @@
 
 #
 # TARGET DIRECTORY
-# Any custom target directory MUST end with '/CONSOLE'
+# Any custom target directory MUST end with '/NPM'
 #
-#-P SAM_CONSOLE_SUITE.installLocation=C:\InCharge\CONSOLE
--P SAM_CONSOLE_SUITE.installLocation=/opt/InCharge/CONSOLE
+#-P NPM_SUITE.installLocation=C:\InCharge\NPM
+-P NPM_SUITE.installLocation=<%=node['smarts']['gereral']['install_root_dir']%>/NPM
 
 #
 # LOGFILE DIRECTORY
 #
-#-log # !C:/temp/SAM_CONSOLE_SUITE.log @ALL
--log # !/tmp/SAM_CONSOLE_SUITE.log @ALL
+#-log # !C:/temp/NPM_SUITE.log @ALL
+-log # !/tmp/NPM_SUITE.log @ALL
 
 #
 # PRODUCT SELECTION PANEL
@@ -99,11 +99,8 @@
 # installation will skip the product.
 #
 
-# Global Console
--P CONSOLE.active=true
-
-# Notif GUI
--P NOTIF.active=true
+# Global NPM
+-P NPM.active=true
 
 #
 # SERVICE SELECTION PANEL
@@ -113,8 +110,10 @@
 # change the value from 'false' to 'true'
 #
 
-# EMC Smarts Servlet Engine Server 
--P SERVICE_DASHBOARD.active=false
+-P SERVICE_OSPF.active=<%=node['smarts']['NPM']['SERVICE_OSPF']['active']%>
+-P SERVICE_BGP.active=<%=node['smarts']['NPM']['SERVICE_BGP']['active']%>
+-P SERVICE_ISIS.active=<%=node['smarts']['NPM']['SERVICE_ISIS']['active']%>
+-P SERVICE_EIGRP.active=<%=node['smarts']['NPM']['SERVICE_EIGRP']['active']%>
 
 #
 # BROKER CONFIGURATION PANEL
@@ -122,13 +121,13 @@
 # Set broker host and port.  Change the broker port and location
 # to your installed broker on your network if required.
 #
--W SMARTS_BCP.brokerHost=localhost
--W SMARTS_BCP.brokerPort=426
+-W SMARTS_BCP.brokerHost=<%=node['smarts']['broker']['host']%>
+-W SMARTS_BCP.brokerPort=<%=node['smarts']['broker']['port']%>
 
 #
 # If brokerHost=localhost, change this value to the network
 # host name.  This property is for HOSTNAME in the URL for
-# Java Web Start configuration for GLOBAL CONSOLE.
+# Java Web Start configuration for GLOBAL NPM.
 #
--W SMARTS_BCP.brokerHostResolution=localhost
+-W SMARTS_BCP.brokerHostResolution=<%=node['smarts']['broker']['brokerHostResolution']%>
 
