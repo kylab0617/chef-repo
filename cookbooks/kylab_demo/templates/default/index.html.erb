@@ -1,0 +1,15 @@
+<%
+if node['hostname'] == "puppy" 
+  img = "puppy"
+else
+  img = "kitty"
+end
+%>
+</html>
+<html>
+  <body bgcolor="gray">
+    <center>
+      <img src="/<%= img %>.jpg">
+    </center> 
+  </body>
+</html>
