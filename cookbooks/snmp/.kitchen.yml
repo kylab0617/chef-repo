@@ -1,0 +1,20 @@
+---
+driver:
+  name: vagrant
+
+platforms:
+- name: ubuntu-12.04
+  run_list:
+  - recipe[apt]
+- name: ubuntu-10.04
+  run_list:
+  - recipe[apt]
+- name: centos-6.5
+- name: centos-5.10
+
+suites:
+- name: default
+  run_list:
+  - recipe[snmp]
+  - recipe[snmp::snmptrapd]
+  attributes: {}
