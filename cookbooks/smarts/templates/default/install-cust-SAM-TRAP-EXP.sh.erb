@@ -1,0 +1,37 @@
+#!/bin/sh
+PRODUCT_NAME=SAM
+PRODUCT_DIR=<%=node['smarts']['gereral']['install_root_dir']%>/$PRODUCT_NAME/smarts
+PRODUCT_BIN_DIR=$PRODUCT_DIR/bin
+SM_SERVICE_CMD=$PRODUCT_BIN_DIR/sm_service
+SM_SERVER_CMD=$PRODUCT_BIN_DIR/sm_server
+SERVICE_TYPE=TRAP-EXP
+CUSTOMER_ID=<%=node['smarts']['gereral']['customerId']%>
+SERVICE_NAME=$CUSTOMER_ID-$SERVICE_TYPE
+
+source $PRODUCT_DIR/local/conf/install-helper-functions.sh
+#-----------------------------
+#if service exists, exit
+$SM_SERVICE_CMD show $SERVICE_NAME | grep $SERVICE_NAME
+if [ $? -eq 0 ] ; then
+   echo "service $SERVICE_NAME exists; please remove before reinstalling."
+   echo "e.g. $SM_SERVICE_CMD stop $SERVICE_NAME"
+   echo "     $SM_SERVICE_CMD remove $SERVICE_NAME"
+   exit 0
+fi
+#-----------------------------
+$SM_SERVICE_CMD install \
+--force \
+--name=$SERVICE_NAME \
+--startmode=runonce  \
+--description="EMC Smarts SNMP Trap Exploder" \
+$PRODUCT_BIN_DIR/sm_trapd \
+--name=$SERVICE_NAME \
+--config=trapd \
+--port=162 \
+--sport=0 \
+--rules=default \
+--useif=192.168.1.121 \
+--output=$SERVICE_NAME.log 
+
+$SM_SERVICE_CMD start $SERVICE_NAME
+$SM_SERVICE_CMD show $SERVICE_NAME

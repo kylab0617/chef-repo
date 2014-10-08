@@ -1,0 +1,66 @@
+#!/bin/sh
+PRODUCT_NAME=SAM
+SERVICE_TYPE=ATG
+#-----------------------------
+PRODUCT_DIR=<%=node['smarts']['gereral']['install_root_dir']%>/$PRODUCT_NAME/smarts
+PRODUCT_BIN_DIR=$PRODUCT_DIR/bin
+SM_SERVICE_CMD=$PRODUCT_BIN_DIR/sm_service
+SM_SERVER_CMD=$PRODUCT_BIN_DIR/sm_server
+CUSTOMER_ID=<%=node['smarts']['gereral']['customerId']%>
+SERVICE_NAME=$CUSTOMER_ID-$SERVICE_TYPE
+
+source $PRODUCT_DIR/local/conf/install-helper-functions.sh
+#-----------------------------
+#if service exists, exit
+$SM_SERVICE_CMD show $SERVICE_NAME | grep $SERVICE_NAME
+if [ $? -eq 0 ] ; then
+   echo "service $SERVICE_NAME exists; please remove before reinstalling."
+   echo "e.g. $SM_SERVICE_CMD stop $SERVICE_NAME"
+   echo "     $SM_SERVICE_CMD remove $SERVICE_NAME"
+   exit 0
+fi
+#-----------------------------
+#import the notification list
+#is SAM Running?
+echo "***checking status of service $CUSTOMER_ID-SAM"
+$SM_SERVICE_CMD show $CUSTOMER_ID-SAM 
+if [ $? -ne 0 ]; then
+   echo "service $CUSTOMER_ID-SAM not detected."
+   exit 1
+fi
+$SM_SERVICE_CMD show $CUSTOMER_ID-SAM | awk '{print $1}' | grep RUNNING
+if [ $? -ne 0 ]; then
+   echo "***starting service $CUSTOMER_ID-SAM."
+   $SM_SERVICE_CMD start $CUSTOMER_ID-SAM
+   check_startup $CUSTOMER_ID-SAM
+fi
+
+#toDo check if broker is running?
+
+#is SAM registered with broker?
+echo "***checking broker for  $CUSTOMER_ID-SAM entry."
+check_broker $CUSTOMER_ID-SAM
+
+echo "***loading notification list"
+echo "$PRODUCT_BIN_DIR/sm_config --server=$CUSTOMER_ID-SAM import --force nlconfig-$CUSTOMER_ID-$SERVICE_TYPE.xml 'NotificationList'"
+$PRODUCT_BIN_DIR/sm_config --server=$CUSTOMER_ID-SAM import --force nlconfig-$CUSTOMER_ID-$SERVICE_TYPE.xml 'NotificationList'
+#-----------------------------
+echo "***installing service $SERVICE_NAME"
+$SM_SERVICE_CMD install \
+--force \
+--name=$SERVICE_NAME \
+--description="EMC SMARTS Ticket Adapter $SERVICE_NAME" \
+--startmode=runonce \
+$PRODUCT_BIN_DIR/sm_notify \
+--output=$SERVICE_NAME \
+--server=$CUSTOMER_ID-SAM \
+--confdir=$PRODUCT_DIR/local/conf/notifier \
+--conf=script-notify-$SERVICE_TYPE.conf \
+script
+
+echo "***starting service $SERVICE_NAME"
+$SM_SERVICE_CMD start $SERVICE_NAME
+check_startup $SERVICE_NAME 
+
+echo "***checking status of service $SERVICE_NAME"
+$SM_SERVICE_CMD show $SERVICE_NAME

@@ -1,0 +1,123 @@
+#<encrypted field>:1.0:3
+#<encryption check> DO NOT ALTER <E-1.0>B9B25962D37BDAFEFD68C52123AEC1612054382D8B033EEE89F0CFC51545BAAA
+#
+# The first line indicates that field number 3, the password, should be
+# encrypted.  It must be the first line in the file.  The lead character, '#',
+# is an essential part of the directive.  Once the file is encrypted, a
+# second line starting with "#<encryption check> DO NOT ALTER <E-1.0>" is
+# inserted into the file.  It provides data for an integrity check.  Do not
+# delete or alter this line.
+#
+#
+# serverConnect.conf
+#
+# Server incoming authorization file.
+# This file defines who may connect to a server and with what privileges.
+#
+# format:
+#    target : InCharge user name : password : privileges
+#
+# The target, InCharge user name and password can be wildcard patterns.
+#
+# NOTE: wildcard characters, even when escaped with a single back-slash "\",
+# are considered part of a wildcard pattern. This means, for example, a
+# password of "change[me", or "change\[me" are both invalid because they
+# are not proper wildcard patterns. However, "changem[ey]" and
+# "changem\[ey\]" are valid, and authenticate correctly against both
+# "changeme" and "changemy". If you want to escape wildcard characters in
+# a field, you must escape the "\" using double back-slash "\\". All other
+# printable ASCII characters can be used as-is or singly escaped with "\".
+# For example, you can use a colon ":" in a password field by escaping it
+# like so "change\:me" which authenticates against "change:me". Characters
+# that need to be double-escaped are ?, *, [, ], ^, <, >, |, (, ).
+#
+# A server will only use a line if its name matches the 'target' field on that
+# line.  This allows multiple servers to share a serverConnect file even though
+# they accept different credentials (InCharge user name/password pairs).
+#
+# The 'InCharge user name' and 'password' are sent as authentication data by
+# the client.  The 'privileges' field defines the privileges granted by the
+# server to this user.
+#
+# Remember that during the authentication
+# process the server receives a connection target, InCharge user name,
+# and password from a client. The server checks each of its records
+# looking for a match. When it finds the first match, it sends the
+# appropriate privilege back to the client. Otherwise the server logs the
+# failed authentication. 
+# 
+# Privileges are: All, Monitor, Ping, None.
+#
+# Use '\' as an escape character.
+#
+# Comment lines start with # or //.  Leading and trailing spaces are ignored
+# in each field.
+#
+# Some fields may also contain special values: 
+#   Field 'target' may contain <BROKER> or ~<BROKER>.  The value <BROKER>
+#   specifies the Broker;  ~<BROKER> specifies all servers, but not the
+#   Broker.
+#
+#   Field 'password' may contain <SYS>.  In this case, the 'InCharge user
+#   name' sent by the client must actually be a valid login name on the host
+#   operating system.  InCharge will pass the name and password sent by the
+#   client to the host operating system for validation.  In this case, the
+#   password itself never appears in the authentication file.
+#    	
+#   Field 'InCharge user name' may contain <DEFAULT>.  This value is used for
+#   legacy clients which do not send a user name.
+#
+#   Field 'password' may contain <DEFAULT>.  This value is used for legacy
+#   clients which do not send a password.
+#
+# Example:
+#   <BROKER>    :<DEFAULT>:<DEFAULT>:All
+#   InCharge    :admin    :<SYS>    :All
+#   InCharge-WP :user5    :ChangeMe :Ping
+#   InCharge    :operator :doit     :Monitor
+#   InCharge    :*        :<SYS>    :None
+#
+
+
+##################### Program Access #####################
+
+# The following lines allow servers and clients to connect to a broker.
+#
+# By default, Brokers are operated in non-secure mode, using the well-known
+# credentials BrokerNonsecure/Nonsecure.  To support old programs that do not
+# send any authorization credentials they similarly accept <DEFAULT>/<DEFAULT>.
+#
+# To configure a secure broker:
+# 1.  Change the privileges for BrokerNonsecure/Nonsecure to Ping.
+# 2.  Comment out the line for <DEFAULT>/<DEFAULT>.
+# 3.  Add a line for a username/password of your choosing here and in a
+#     corresponding line in clientConnect.conf.
+#
+<BROKER>:<DEFAULT>:<DEFAULT>:All
+# There is a line corresponding to the next one in clientConnect.conf.
+<BROKER>:BrokerNonsecure:<E-1.0>B8DFEBDEFB1920D39DABEB318F7617D776F4C54FB5C2A695524F9804621EA273:All
+
+# The following authorizes Brokers to ping all servers.  It corresponds to
+# a line in brokerConnect.conf.
+*:BrokerPing:<E-1.0>ABEEB305ED117151712331BA1CA045F97998935D4A3C44C66337C328F17DDD4B:Ping
+
+# If you wish to provide unique credentials that other clients should use when
+# connecting to servers, add the definitions here and in the clientConnect
+# files used by those clients.
+# servername    :username        :password    :All
+ 
+
+##################### User Access #####################
+
+# NOTE: admin has full access.  You should change the password!  When you've
+# done so, change the corresponding line in clientConnect.conf.
+*:admin:<E-1.0>94D20981E91C0DDB9A79461EB3104A0A5BED7334069D6EFCC4360125FDEA6179:All
+
+# The next two lines are default accounts that allow access only by consoles.
+# You should change the passwords.
+*:maint:<E-1.0>97D44198A4A5A6CC2F808C91E054A61F6A024AB8FC68098E58CB12B9ABAE529D:Monitor
+*:oper:<E-1.0>942270505EC65523DA04BAD1B83AF843B1937058869D92DF8A97FE8AB7F4F379:Monitor
+
+# This line allows anyone with a valid account on this system to connect a
+# console.  Comment it out if you don't want to provide such access.
+*:*:<SYS>:Monitor

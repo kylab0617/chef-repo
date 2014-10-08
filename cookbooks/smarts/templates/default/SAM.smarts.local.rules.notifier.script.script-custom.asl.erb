@@ -1,0 +1,95 @@
+/* script-custom.asl - Custom script for the script notification adapter.
+ *
+ * Copyright (C) 2001, System Management ARTS (SMARTS)
+ * All Rights Reserved
+ *
+ * RCS $Id: //depot/smarts/dmt/dev/7.2/gna/script/script-custom.asl#1 $
+ */
+
+debug = TRUE;
+
+/*
+ * No word delimiter needed.
+ */
+delim = "";
+
+
+/*
+ * Required variables.
+ */
+
+default debug = TRUE;
+default test = FALSE;
+
+default NotifierName = "<error>";
+notifier = self->object("GNA_Notifier", NotifierName) ? LOG,STOP;
+
+currentEvent = notifier->CurrentEvent ? LOG,STOP;
+
+script = self->object("ACT_Script", "ACT-Script") ? LOG,STOP;
+script->test = test;
+script->trace = debug;
+
+
+/*
+ * Rules.
+ */
+
+
+START() {
+    local params = "";
+    local status = 0;
+} filter {
+    /*
+     * Only send here if sentByCustom is TRUE.
+     */
+    currentEvent->sentByCustom
+} do {
+    /*
+     * Example: Simply pass some of the information we have about this 
+     *          notification to the script.
+     * Additional information is available as attributes of #currentEvent#.
+     * See the documentation for details.
+     * Edit to suit your needs.
+     */
+    params = "\"" . currentEvent->icSystemName . "\" " . 
+             "\"" . currentEvent->icTimestamp . "\" " . 
+             "\"" . currentEvent->icInstance . "\" " . 
+             "\"" . currentEvent->icClassDisplayName . "\" " .
+             "\"" . currentEvent->icEventName . "\" " .
+             "\"" . currentEvent->icEventDescription . "\" " .
+             "\"" . currentEvent->icSourceDomainName . "\" " .
+             "\"" . currentEvent->icInMaintenance . "\" " .
+             "\"" . currentEvent->icSeverity . "\" " .
+	     "\"" . currentEvent->icType  . "\" " .
+             "\"" . currentEvent->icId . "\" " .
+             "\"" . currentEvent->icDisplayName . "\" " .
+             "\"" . currentEvent->icEvent . "\" " .
+             "\"" . currentEvent->icLastNotifiedAt . "\" " .
+             "\"" . currentEvent->icInstanceDisplayName . "\" " .
+             "\"" . currentEvent->icUserDefined8 . "\" " .
+             "\"" . currentEvent->icSystemType . "\" " .
+             "\"" . currentEvent->icFirstNotifiedAt . "\" " .
+             "\"" . currentEvent->icIsRoot . "\" " .
+             "\"" . currentEvent->icIsProblem . "\" " .
+             "\"" . currentEvent->icElementName . "\" " .
+             "\"" . currentEvent->icSourceEventType . "\" " .
+             "\"" . currentEvent->icLastChangedAt . "\" " .
+             "\"" . currentEvent->icLastClearedAt . "\" " .
+             "\"" . currentEvent->icCategory . "\" " .
+             "\"" . currentEvent->icImpact . "\" " .
+             "\"" . currentEvent->icClass . "\"";
+
+    status = script->run(params) ? LOG,STOP;
+    if (status != 0) {
+        print("Failed.");
+    }
+}
+
+
+/*
+ * Local Variables:
+ * mode: C++
+ * End:
+ */
+

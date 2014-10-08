@@ -1,0 +1,55 @@
+#!/bin/bash
+PRODUCT_NAME=SAM
+SERVICE_TYPE=SAM
+PRODUCT_DIR=<%=node['smarts']['gereral']['install_root_dir']%>/$PRODUCT_NAME/smarts
+PRODUCT_BIN_DIR=$PRODUCT_DIR/bin
+SM_SERVICE_CMD=$PRODUCT_BIN_DIR/sm_service
+SM_SERVER_CMD=$PRODUCT_BIN_DIR/sm_server
+SM_EMS_CMD=$PRODUCT_BIN_DIR/sm_ems
+CUSTOMER_ID=<%=node['smarts']['gereral']['customerId']%>
+SERVICE_NAME=$CUSTOMER_ID-$SERVICE_TYPE
+
+fn=/tmp/runningSmartsServices.txt
+while true ; do
+  #send severity 1 to 5 events from every running service
+  $PRODUCT_BIN_DIR/brcontrol | grep "RUNNING" > $fn
+  for i in {1..5} ; do
+    cnt=`expr $i \* 100`
+    echo Loop $i
+    cat $fn | while read serviceLine; do
+      res=$(echo $serviceLine | awk '{print $5}')
+      if [ "x$res" == "xRUNNING" ] ; then
+        cnt=`expr $cnt + 1`
+        service=$(echo $serviceLine | awk '{print $1}')
+        echo sending notification $cnt from $service
+        $SM_EMS_CMD -s $CUSTOMER_ID-SAM notify Router R${cnt}.net Down $service durable source Severity=$i Category=Availability TroubleTicketID=INC$cnt EventText="Demo." &
+      fi
+    done
+  done
+
+  echo waiting 5 minutes
+  for m in {0..29}; do
+     echo `expr 300 - 10 \* $m`s left
+     sleep 10
+  done
+
+  #clear severity 1 to 5 events from every running service
+  for i in {1..5} ; do
+    cnt=`expr $i \* 100`
+    echo Loop $i
+    cat $fn | while read serviceLine; do
+      res=$(echo $serviceLine | awk '{print $5}')
+      if [ "x$res" == "xRUNNING" ] ; then
+        cnt=`expr $cnt + 1`
+        service=$(echo $serviceLine | awk '{print $1}')
+        echo clearing notification $cnt from $service
+        $SM_EMS_CMD -s $CUSTOMER_ID-SAM clear Router R${cnt}.net Down $service durable source &
+      fi
+    done
+  done
+  echo waiting 2 minutes
+  for m in {0..11}; do
+     echo `expr 120 - 10 \* $m`s left
+     sleep 10
+  done
+done

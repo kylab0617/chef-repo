@@ -96,7 +96,7 @@
 # If your operating system is not supported for a given product, the
 # installation will skip the product.
 #
--P SAM_SUITE.active=<%=node['smarts']['SAM']['SAM_SUITE']['active']%>
+-P SAM_SUITE.active=true
 
 #
 # SERVICE SELECTION PANEL
@@ -105,12 +105,12 @@
 # To enable the installation of services, 
 # change the value from 'false' to 'true'
 #
--P SERVICE_BROKER.active=<%=node['smarts']['SAM']['SERVICE_BROKER']['active']%>
--P SERVICE_SAM.active=<%=node['smarts']['SAM']['SERVICE_SAM']['active']%>
--P SERVICE_MBIM.active=<%=node['smarts']['SAM']['SERVICE_MBIM']['active']%>
--P SERVICE_ICOI.active=<%=node['smarts']['SAM']['SERVICE_ICOI']['active']%>
--P SERVICE_TRAP.active=<%=node['smarts']['SAM']['SERVICE_TRAP']['active']%>
--P SERVICE_UIM.active=<%=node['smarts']['SAM']['SERVICE_UIM']['active']%>
+-P SERVICE_BROKER.active=true
+-P SERVICE_SAM.active=false
+-P SERVICE_MBIM.active=false
+-P SERVICE_ICOI.active=false
+-P SERVICE_TRAP.active=false
+-P SERVICE_UIM.active=false
 
 #
 # BROKER CONFIGURATION PANEL

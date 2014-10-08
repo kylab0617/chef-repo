@@ -1,0 +1,24 @@
+#!/bin/sh
+PRODUCT_NAME=SAM
+PRODUCT_DIR=<%=node['smarts']['gereral']['install_root_dir']%>/$PRODUCT_NAME/smarts
+PRODUCT_BIN_DIR=$PRODUCT_DIR/bin
+SM_SERVICE_CMD=$PRODUCT_BIN_DIR/sm_service
+SM_SERVER_CMD=$PRODUCT_BIN_DIR/sm_server
+SERVICE_TYPE=SAM
+CUSTOMER_ID=<%=node['smarts']['gereral']['customerId']%>
+SERVICE_NAME=$CUSTOMER_ID-$SERVICE_TYPE
+
+$SM_SERVICE_CMD install \
+--force \
+--name=$SERVICE_NAME \
+--description="EMC Smarts Service Assurance Manager Server $SERVICE_NAME"  \
+#--env=SM_AUTHORITY="IDENTIFY=sm_authority,AUTHENTICATE=/usr/bin/perl $PRODUCT_DIR/local/script/sm_authority_ldap.pl" \
+--startmode=runonce \
+$SM_SERVER_CMD  \
+--name=$SERVICE_NAME \
+--config=ics \
+--port=32112 \
+--ignore-restore-errors \
+--output
+
+$SM_SERVICE_CMD show $SERVICE_NAME

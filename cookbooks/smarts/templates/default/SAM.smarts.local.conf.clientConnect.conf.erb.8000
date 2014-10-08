@@ -1,0 +1,88 @@
+#<encrypted field>:1.0:4
+#<encryption check> DO NOT ALTER <E-1.0>B98AFEECF722DBD703C7AFA00C3324BF3C006EAC4A4B6A8192E3DD17DE332982
+#
+# The first line indicates that field number 4, the password, should be
+# encrypted.  It must be the first line in the file.  The lead character, '#',
+# is an essential part of the directive.  Once the file is encrypted, a
+# second line starting with "#<encryption check> DO NOT ALTER <E-1.0>" is
+# inserted into the file.  It provides data for an integrity check.  Do not
+# delete or alter this line.
+#
+#
+# clientConnect.conf
+#
+# Client outgoing authorization file
+# This file defines the authentication credentials that clients will send
+# to servers.  Brokers do not use this file; see brokerConnect.conf.
+#
+# format:
+#    login user : target : InCharge user name : password
+#
+# The fields 'login user' and 'target' may be wildcard patterns. 
+#
+# When a client other than a console wishes to connect to a server, it reads
+# the lines in this file in the order written, searching for a line whose
+# 'login user' matches the user running the client and whose 'target' matches
+# the name of the server being connected to.  Only the first matching line is
+# used (but see the discussion of <PROMPT> below.)
+#
+# Once a line is located, its 'InCharge user name' and 'password' are sent
+# to the target as credentials.
+#
+# Use '\' as an escape character.
+#
+# Comment lines start with # or //.  Leading and trailing spaces are ignored
+# in each field.
+#
+# Some fields may also contain special values: 
+#   Field 'target' may contain <BROKER> or ~<BROKER>.  The value <BROKER>
+#   specifies the Broker;  ~<BROKER> specifies all servers, but not the
+#   Broker.
+#
+#   Field 'InCharge user name' may contain <USERNAME>.  The user name under
+#   which the current process is logged in is sent as the 'InCharge user name'.
+#
+#   Fields 'InCharge user name' and 'password' may contain <PROMPT>.  If the
+#   program is attached to a terminal, the system will prompt the user for
+#   the corresponding value.  Lines containing a <PROMPT> are skipped by
+#   programs that are not attached to a terminal, even if they would otherwise
+#   be selected.  (A later line matching the 'login user' and 'target' will be
+#   used.)
+#
+#   Fields 'InCharge user name' and 'password' may contain <DEFAULT>.
+#   <DEFAULT> is used by the target to authenticate legacy clients.
+#
+# Example:
+#   *       :<BROKER> : <DEFAULT>  : <DEFAULT>
+#   admin   :InCharge : <USERNAME> : <PROMPT>
+#   goodop  :~<BROKER>: operator   : doit
+#   *       :~<BROKER>: <PROMPT>   : <PROMPT>
+ 
+
+##################### Program and User Access to Broker #####################
+
+# By default, Brokers are operated in Nonsecure mode, using the well-known
+# credentials BrokerNonsecure/Nonsecure.  There is a line corresponding to
+# this one in serverConnect.conf.  This section must come before the "User
+# Access" section to avoid prompting interactive users for the Broker password.
+# If you use a secure Broker and wish to prompt interactive users, combine
+# this section with the Program Access section below.
+*:<BROKER>:BrokerNonsecure:<E-1.0>B836B1108B159DB5DD8C711B883DB3FC125D47069247F4B5118A67185B07BF99
+
+
+##################### User Access #####################
+
+# All interactive users get prompted.  Note that because it comes first, and
+# specifies the match-all '*' for both 'login user' and 'target', this line
+# will always be selected for all interactive users, even if they would
+# otherwise match a later line.
+#*:*:<PROMPT>:<PROMPT>
+
+
+##################### Program Access #####################
+
+# NOTE: admin has full access.  You should change the password!  When you've
+# done so, change the corresponding line in serverConnect.conf.  This section
+# must come after the "User Access" section or it will be used for all
+# connection attempts, including interactive ones.
+*:*:admin:<E-1.0>CA696B3D95284749C3CB6F8EECDD8A47E52E55AB76D739DE5220CC2D07E84108

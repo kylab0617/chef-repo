@@ -1,0 +1,53 @@
+#!/bin/sh
+PRODUCT_NAME=ESM
+PRODUCT_DIR=<%=node['smarts']['gereral']['install_root_dir']%>/$PRODUCT_NAME/smarts
+PRODUCT_BIN_DIR=$PRODUCT_DIR/bin
+SM_SERVICE_CMD=$PRODUCT_BIN_DIR/sm_service
+SM_SERVER_CMD=$PRODUCT_BIN_DIR/sm_server
+SERVICE_TYPE=ESM-VM
+CUSTOMER_ID=<%=node['smarts']['gereral']['customerId']%>
+SERVICE_NAME=$CUSTOMER_ID-$SERVICE_TYPE
+
+source $PRODUCT_DIR/local/conf/install-helper-functions.sh
+#-----------------------------
+#if service exists, exit
+$SM_SERVICE_CMD show $SERVICE_NAME | grep $SERVICE_NAME
+if [ $? -eq 0 ] ; then
+   echo "service $SERVICE_NAME exists; please remove before reinstalling."
+   echo "e.g. $SM_SERVICE_CMD stop $SERVICE_NAME"
+   echo "     $SM_SERVICE_CMD remove $SERVICE_NAME"
+   exit 0
+fi
+#-----------------------------
+$SM_SERVICE_CMD install \
+--force \
+--unmanaged \
+--startmode=runonce \
+--name=$SERVICE_NAME \
+--description="ESM Remote Java Adapter (for VMware support) $SERVICE_NAME" \
+$PRODUCT_BIN_DIR/sm_adapter_java \
+--name=$SERVICE_NAME \
+--output \
+--jar=activation.jar \
+--jar=axis-ant.jar \
+--jar=axis.jar \
+--jar=commons-discovery-0.2.jar \
+--jar=commons-logging-1.0.4.jar \
+--jar=jaxen-core.jar \
+--jar=jaxen-jdom.jar \
+--jar=jaxrpc.jar \
+--jar=jdom.jar \
+--jar=log4j-1.2.8.jar \
+--jar=mailapi.jar \
+--jar=qtjava.jar \
+--jar=saaj.jar \
+--jar=saxpath.jar \
+--jar=smtp.jar \
+--jar=vim.jar \
+--jar=vimsamples.jar \
+--jar=wsdl4j-1.5.1.jar \
+--jar=xalan.jar \
+--jar=xerces.jar
+
+$SM_SERVICE_CMD start $SERVICE_NAME
+$SM_SERVICE_CMD show $SERVICE_NAME

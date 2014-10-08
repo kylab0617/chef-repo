@@ -1,0 +1,21 @@
+sm_service install --force  --unmanaged  --startmode=runonce \
+ '--name=ic-sam-server' \
+ '--description=EMC Smarts Service Assurance Manager Server' \
+ '/opt/InCharge/SAM/smarts/bin/sm_server' \
+ '-n' \
+ 'INCHARGE-SA' \
+ '--config=ics' \
+ '--port=0' \
+ '--ignore-restore-errors' \
+ '--output'
+
+[root@smarts bin]# ./sm_service show --cmdline 1234-SAM01
+sm_service install --force  --unmanaged  --startmode=runonce \
+ '--name=1234-SAM01' \
+ '--description=EEMC Smarts Service Assurance Manager Server 1234-SAM01' \
+ '/opt/InCharge/SAM/smarts/bin/sm_server' \
+ '--name=1234-SAM01' \
+ '--port=0' \
+ '--config=ics' \
+ '--ignore-restore-errors' \
+ '--output'

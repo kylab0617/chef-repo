@@ -1,0 +1,57 @@
+check_startup(){
+	sname=$1
+    count=1
+    while true
+    do
+        sleep 1
+        # echo "DEBUG: $count"
+        status=$($SM_SERVICE_CMD show $sname | grep $sname | awk '{print $1}')
+        if [ "x$status" == "xRUNNING" ]; then
+            break
+        fi
+        count=`expr ${count} + 1`
+        if [ ${count} -gt 60 ];
+        then
+            echo "$sname failed to start."
+            exit 1
+        fi
+    done
+}
+check_broker(){
+    sname=$1
+    count=1
+    while true
+    do
+        sleep 1
+        # echo "DEBUG: $count"
+        status=$($PRODUCT_BIN_DIR/brcontrol | grep $sname | awk '{print $5}')
+        if [ "x$status" == "xRUNNING" ]; then
+            break
+        fi
+        count=`expr ${count} + 1`
+        if [ ${count} -gt 60 ];
+        then
+            echo "$sname not marked RUNNING in broker."
+            exit 1
+        fi
+    done
+}
+check_stopped(){
+	sname=$1
+    count=1
+    while true
+    do
+        sleep 1
+        # echo "DEBUG: $count"
+        status=$($SM_SERVICE_CMD show $sname | grep $sname | awk '{print $1}')
+        if [ "x$status" == "xNOT" ]; then
+            break
+        fi
+        count=`expr ${count} + 1`
+        if [ ${count} -gt 60 ];
+        then
+            echo "$sname failed to start."
+            exit 1
+        fi
+    done
+}

@@ -1,0 +1,37 @@
+#
+# Copyright 2008 by EMC Corporation ("EMC").
+# All rights reserved.
+#
+# UNPUBLISHED CONFIDENTIAL AND PROPRIETARY PROPERTY OF EMC.  The copyright
+# notice above does not evidence any actual or intended publication of this
+# software.  Disclosure and dissemination are pursuant to separate agreements.
+# Unauthorized use, distribution or dissemination are strictly prohibited.
+#
+# RCS $Id: ESM.conf,v 1.1.2.4.2.1 2009/02/06 19:25:26 fequiy Exp $
+# $Source: /apps/cvs/smarts/smarts/esm/conf/init/Attic/ESM.conf,v $
+#
+# RCS $Id: ESM.conf,v
+
+
+# Instances of AM Server
+# ----------------------
+#
+
+# Add one instance of InChargeDomainManager for each InCharge Availability
+# Manager that the EMC Server Manager needs to attach to. Type is always "AM".
+# DomainName is the name of the AM server as it is registered with the
+# broker. DisplayName is arbitrary.
+# Note: Object name suffix MUST be same as DomainName, see the following
+# example
+
+#InChargeDomain::InChargeDomain_INCHARGE-AM-PM{
+#       Type = "AM"
+#       DomainName = "INCHARGE-AM-PM"
+#       DisplayName = "INCHARGE-AM-PM"
+#}
+
+InChargeDomain::InChargeDomain_<%=node['smarts']['gereral']['customerId']%>-AMPM{
+       Type = "AM"
+       DomainName = "<%=node['smarts']['gereral']['customerId']%>-AMPM"
+       DisplayName = "<%=node['smarts']['gereral']['customerId']%>-AMPM"
+}

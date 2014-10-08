@@ -1,0 +1,126 @@
+#<encrypted field>:1.0:3
+#<encryption check> DO NOT ALTER <E-1.0>B96BDC6D4C1E6280301FD8E97DDBE6017D3EFF578D93AF68E6F9322431BA195F
+#
+# The first line indicates that field number 3, the password, should be
+# encrypted.  It must be the first line in the file.  The lead character, '#',
+# is an essential part of the directive.  Once the file is encrypted, a
+# second line starting with "#<encryption check> DO NOT ALTER <E-1.0>" is
+# inserted into the file.  It provides data for an integrity check.  Do not
+# delete or alter this line.
+#
+#
+# serverConnect.conf
+#
+# Server incoming authorization file.
+# This file defines who may connect to a server and with what privileges.
+#
+# format:
+#    target : InCharge user name : password : privileges
+#
+# The target, InCharge user name and password can be wildcard patterns.
+#
+# A server will only use a line if its name matches the 'target' field on that
+# line.  This allows multiple servers to share a serverConnect file even though
+# they accept different credentials (InCharge user name/password pairs).
+#
+# The 'InCharge user name' and 'password' are sent as authentication data by
+# the client.  The 'privileges' field defines the privileges granted by the
+# server to this user.
+#
+# Remember that during the authentication
+# process the server receives a connection target, InCharge user name,
+# and password from a client. The server checks each of its records
+# looking for a match. When it finds the first match, it sends the
+# appropriate privilege back to the client. Otherwise the server logs the
+# failed authentication. 
+# 
+# Privileges are: All, Monitor, Ping, None.
+#
+# Use '\' as an escape character.
+#
+# Comment lines start with # or //.  Leading and trailing spaces are ignored
+# in each field.
+#
+# Some fields may also contain special values: 
+#   Field 'target' may contain <BROKER> or ~<BROKER>.  The value <BROKER>
+#   specifies the Broker;  ~<BROKER> specifies all servers, but not the
+#   Broker.
+#
+#   Field 'password' may contain <SYS>.  In this case, the 'InCharge user
+#   name' sent by the client must actually be a valid login name on the host
+#   operating system.  InCharge will pass the name and password sent by the
+#   client to the host operating system for validation.  In this case, the
+#   password itself never appears in the authentication file.
+#    	
+#   Field 'InCharge user name' may contain <DEFAULT>.  This value is used for
+#   legacy clients which do not send a user name.
+#
+#   Field 'password' may contain <DEFAULT>.  This value is used for legacy
+#   clients which do not send a password.
+#
+# Example:
+#   <BROKER>    :<DEFAULT>:<DEFAULT>:All
+#   InCharge    :admin    :<SYS>    :All
+#   InCharge-WP :user5    :ChangeMe :Ping
+#   InCharge    :operator :doit     :Monitor
+#   InCharge    :*        :<SYS>    :None
+#
+
+
+##################### Program Access #####################
+
+# The following lines allow servers and clients to connect to a broker.
+#
+# By default, Brokers are operated in non-secure mode, using the well-known
+# credentials BrokerNonsecure/Nonsecure.  To support old programs that do not
+# send any authorization credentials they similarly accept <DEFAULT>/<DEFAULT>.
+#
+# To configure a secure broker:
+# 1.  Change the privileges for BrokerNonsecure/Nonsecure to Ping.
+# 2.  Comment out the line for <DEFAULT>/<DEFAULT>.
+# 3.  Add a line for a username/password of your choosing here and in a
+#     corresponding line in clientConnect.conf.
+#
+<BROKER>:<DEFAULT>:<DEFAULT>:All
+# There is a line corresponding to the next one in clientConnect.conf.
+<BROKER>:BrokerNonsecure:<E-1.0>B864BCDA0277EE9F5AA318EB50AED00312BA696FF3FF12D0EB597C0808C246B5:All
+
+# The following authorizes Brokers to ping all servers.  It corresponds to
+# a line in brokerConnect.conf.
+*:BrokerPing:<E-1.0>ABE440D5D65503C1A4CA01CFB015EF8B70BE2FF54F62DD4B19D17043649D0603:Ping
+
+# If you wish to provide unique credentials that other clients should use when
+# connecting to servers, add the definitions here and in the clientConnect
+# files used by those clients.
+# servername    :username        :password    :All
+ 
+
+##################### User Access #####################
+
+# NOTE: admin has full access.  You should change the password!  When you've
+# done so, change the corresponding line in clientConnect.conf.
+#*:admin:<E-1.0>CA1CD96F334608017C5713E03306FB8562BF688DAAA30599A285E0FFAA67F234:All
+*:admin:<E-1.0>CA696B3D95284749C3CB6F8EECDD8A47E52E55AB76D739DE5220CC2D07E84108:All
+
+#Admin personnel
+*:dredwine:<E-1.0>80F482B26F43D60ADAEC1E82378782D35A7E42EF7D35B4F6CD4B9CCF5F10F377:All
+*:kevsmith:<E-1.0>A3709CAD21014C3EBB57B7D37EDB524ED2341C73B1E8441AA50685FF3736D28D:All
+*:ddurost:<E-1.0>C36B08140A3D58924657195B0FBE513685B19FE59B4F9B79DF298D420BD1B0C1:All
+*:jtolbert:<E-1.0>802A2A37C3D11582A285D42BCDF6E4F2E7B4EC263980480E4EE904404967F502:All
+
+# Demo account
+*:Demo:<E-1.0>BDD7451D99792F065992295EBAF310827465463341DB79385EC5D37198496E9F:All
+
+# USOC
+*:usoceng:<E-1.0>A3844CF68EA9CF1E5D8C53A9EE720385E5117AC97774C6EE9D62EBC8870076BD:All
+*:usocweb:<E-1.0>A04990C278385B6CC509570B7891733E19C53C8C614DDC377751457940BF5228:All
+
+
+# The next two lines are default accounts that allow access only by consoles.
+# You should change the passwords.
+*:maint:<E-1.0>973C9044E7812810FC9A9ABBBB59D28039A9B8929FB6C38E1A9BE7E6B6A3600D:Monitor
+*:oper:<E-1.0>94BF88A0FE53BFAF5510DB903A03A3F8D628C787843C5DDE655DF6ECBABAC0B6:Monitor
+
+# This line allows anyone with a valid account on this system to connect a
+# console.  Comment it out if you don't want to provide such access.
+*:*:<SYS>:All

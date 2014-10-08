@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no" ?>
+<ics_config version="2">
+	<nlconfig enable="TRUE" name="ATG" timestamp="1387398670">
+		<columnheading column="ElementClassName" type="String">Element Class</columnheading>
+		<columnheading column="Active" type="Boolean">Active</columnheading>
+		<columnheading column="InstanceDisplayName" type="String">Name</columnheading>
+		<columnheading column="IsRoot" type="Boolean">IsRoot</columnheading>
+		<columnheading column="LastClearedAt" type="Time">Last Clear</columnheading>
+		<columnheading column="Impact" type="Integer">Impact</columnheading>
+		<columnheading column="ClassDisplayName" type="String">Class</columnheading>
+		<columnheading column="Category" type="String">Category</columnheading>
+		<columnheading column="LastChangedAt" type="Time">Last Change</columnheading>
+		<columnheading column="Name" type="String">InternalEventHandle</columnheading>
+		<columnheading column="IsProblem" type="Boolean">IsProblem</columnheading>
+		<columnheading column="EventName" type="String">EventName</columnheading>
+		<columnheading column="ClassName" type="String">ClassName</columnheading>
+		<columnheading column="FirstNotifiedAt" type="Time">First Notify</columnheading>
+		<columnheading column="UserDefined10" type="String">User Defined 10</columnheading>
+		<columnheading column="OccurrenceCount" type="Integer">Count</columnheading>
+		<columnheading column="Severity" type="Integer">Severity</columnheading>
+		<columnheading column="InMaintenance" type="Boolean">In Maintenance</columnheading>
+		<columnheading column="EventState" type="String">Event State</columnheading>
+		<columnheading column="TroubleTicketID" type="String">Ticket ID</columnheading>
+		<columnheading column="InstanceName" type="String">InstanceName</columnheading>
+		<columnheading column="Acknowledged" type="Boolean">Acknowledged</columnheading>
+		<columnheading column="Owner" type="String">Owner</columnheading>
+		<columnheading column="Certainty" type="Percentage">Certainty</columnheading>
+		<columnheading column="SourceDomainName" type="String">Source</columnheading>
+		<columnheading column="UserDefined9" type="String">User Defined 9</columnheading>
+		<columnheading column="UserDefined6" type="String">User Defined 6</columnheading>
+		<columnheading column="EventDisplayName" type="String">Event</columnheading>
+		<columnheading column="UserDefined1" type="String">User Defined 1</columnheading>
+		<columnheading column="UserDefined3" type="String">User Defined 3</columnheading>
+		<columnheading column="UserDefined5" type="String">User Defined 5</columnheading>
+		<columnheading column="UserDefined4" type="String">User Defined 4</columnheading>
+		<columnheading column="UserDefined2" type="String">User Defined 2</columnheading>
+		<columnheading column="EventType" type="String">Event Type</columnheading>
+		<columnheading column="LastNotifiedAt" type="Time">Last Notify</columnheading>
+		<columnheading column="ElementName" type="String">Element Name</columnheading>
+		<columnheading column="UserDefined8" type="String">User Defined 8</columnheading>
+		<columnheading column="UserDefined7" type="String">User Defined 7</columnheading>
+		<columnheading column="ClearOnAcknowledge" type="Boolean">ClearOnAcknowledge</columnheading>
+		<columnheading column="SourceEventType" type="String">SourceEventType</columnheading>
+		<columnheading column="EventText" type="String">Event Text</columnheading>
+		<filterconfig type="EXPRESSION">
+			<isa>ICIM_Notification</isa>
+			<criterion attribute="Severity">&lt;1-3&gt;</criterion>
+			<criterion attribute="InMaintenance">false</criterion>
+			<criterion attribute="UserDefined2">~Yes</criterion>
+			<criterion attribute="SourceDomainName">~<%=node['smarts']['gereral']['customerId']%>-ACM|<%=node['smarts']['gereral']['customerId']%>-BGP|<%=node['smarts']['gereral']['customerId']%>-MBIM|<%=node['smarts']['gereral']['customerId']%>-TRAP|Trap Processor|<%=node['smarts']['gereral']['customerId']%>-ESM|OpsMgr2007</criterion>
+			<criterion attribute="ClassDisplayName">~DuplicateIP|HSRPGroup|Partition|Session|SNMPAgent|SNMPTrap</criterion>
+			<criterion attribute="InstanceDisplayName">~*Swap:NTFS*|*Paging File*|SP099EIQ90|*SP099EIQ90*|*oradata*|SQ*|SD*|sq*|sd*|10*|150*|192*|*spl049log*|*SYS2G//DIMS/data/db*|*IF-npn002rtr10-pauls-UHN/IPSEC-Tunnel-161.108.184.17*|*SYS2G//DIMS/data/db*</criterion>
+			<criterion attribute="EventDisplayName">~Disabled|ExceededMaximumUptime|DiscoveryError|HighUtilization|HighDiscardRate|ResourceException|InsufficientFreeMemory|HighErrorRate|HighQueueDropRate|HighBroadcastRate|OutOfRange|StateNotNormal|Down</criterion>
+			<criterion attribute="IsRoot">true</criterion>
+		</filterconfig>
+		<filterconfig type="EXPRESSION">
+			<isa>ICIM_Notification</isa>
+			<criterion attribute="Severity">&lt;1-3&gt;</criterion>
+			<criterion attribute="InMaintenance">false</criterion>
+			<criterion attribute="UserDefined2">~Yes</criterion>
+			<criterion attribute="SourceDomainName">~<%=node['smarts']['gereral']['customerId']%>-ACM|<%=node['smarts']['gereral']['customerId']%>-BGP|<%=node['smarts']['gereral']['customerId']%>-ESM*|<%=node['smarts']['gereral']['customerId']%>-MBIM|<%=node['smarts']['gereral']['customerId']%>-TRAP|Trap Processor</criterion>
+			<criterion attribute="ClassDisplayName">~Processor|Interface|Port</criterion>
+			<criterion attribute="InstanceDisplayName">~*Swap:NTFS*|*Paging File*|SP099EIQ90|*SP099EIQ90*|*oradata*|SQ*|SD*|sq*|sd*|*MCV*|*mcv*|10*|150*|192*|*usmatw-cor-sw0*|*core6513*|*eoc-4006-1*</criterion>
+			<criterion attribute="EventDisplayName">HighUtilization</criterion>
+		</filterconfig>
+		<filterconfig type="EXPRESSION">
+			<isa>ICIM_Notification</isa>
+			<criterion attribute="Severity">&lt;1-3&gt;</criterion>
+			<criterion attribute="InMaintenance">false</criterion>
+			<criterion attribute="UserDefined2">~Yes</criterion>
+			<criterion attribute="SourceDomainName"><%=node['smarts']['gereral']['customerId']%>-TRAP</criterion>
+			<criterion attribute="InstanceDisplayName">*DALRTCA1*</criterion>
+			<criterion attribute="EventDisplayName">*LINK*|*Link*|*link*</criterion>
+		</filterconfig>
+		<filterconfig type="EXPRESSION">
+			<isa>ICIM_Notification</isa>
+			<criterion attribute="Severity">&lt;1-3&gt;</criterion>
+			<criterion attribute="InMaintenance">false</criterion>
+			<criterion attribute="UserDefined2">~Yes</criterion>
+			<criterion attribute="SourceDomainName"><%=node['smarts']['gereral']['customerId']%>-TRAP</criterion>
+			<criterion attribute="EventDisplayName">*ora*|*rdbms*|Dell_Storage*|Cma*|Voice*|Unity*|SQL*|SiteScope</criterion>
+			<criterion attribute="EventState">ACTIVE</criterion>
+			<criterion attribute="EventText">~*2049*|*2095*|*2176*|*2180*|*2181*|*2199*|*2214*|*2242*|*2243*|*2247*|*2248*|*2266*|*2271*|*2334*|*2358*</criterion>
+			<criterion attribute="InstanceDisplayName">~150.*|10.*|161*|*sp970sms01*</criterion>
+		</filterconfig>
+		<filterconfig type="EXPRESSION">
+			<isa>ICIM_Notification</isa>
+			<criterion attribute="Severity">&lt;1-3&gt;</criterion>
+			<criterion attribute="InMaintenance">false</criterion>
+			<criterion attribute="UserDefined2">~Yes</criterion>
+			<criterion attribute="SourceDomainName">~<%=node['smarts']['gereral']['customerId']%>-ACM|<%=node['smarts']['gereral']['customerId']%>-BGP|<%=node['smarts']['gereral']['customerId']%>-MBIM|<%=node['smarts']['gereral']['customerId']%>-TRAP|Trap Processor|<%=node['smarts']['gereral']['customerId']%>-ESM</criterion>
+			<criterion attribute="ClassDisplayName">~Switch|Router|Firewall|Host|Node|Partition</criterion>
+			<criterion attribute="InstanceDisplayName">~*Swap:NTFS*|*Paging File*|SP099EIQ90|*SP099EIQ90*|*oradata*|SQ*|SD*|sq*|sd*|10*|150*|192*|*spl049log*</criterion>
+			<criterion attribute="EventDisplayName">Down</criterion>
+			<criterion attribute="IsRoot">true</criterion>
+		</filterconfig>
+		<filterconfig type="EXPRESSION">
+			<isa>ICIM_Notification</isa>
+			<criterion attribute="Severity">&lt;1-3&gt;</criterion>
+			<criterion attribute="InMaintenance">false</criterion>
+			<criterion attribute="UserDefined2">~Yes</criterion>
+			<criterion attribute="ClassDisplayName">SNMPAgent</criterion>
+			<criterion attribute="InstanceDisplayName">~*APPUSMA003*|*ESX*|*esx*</criterion>
+			<criterion attribute="SourceDomainName">~<%=node['smarts']['gereral']['customerId']%>-ACM</criterion>
+		</filterconfig>
+		<filterconfig type="EXPRESSION">
+			<isa>ICIM_Notification</isa>
+			<criterion attribute="Severity">&lt;1-3&gt;</criterion>
+			<criterion attribute="InMaintenance">false</criterion>
+			<criterion attribute="UserDefined2">~Yes</criterion>
+			<criterion attribute="SourceDomainName"><%=node['smarts']['gereral']['customerId']%>-TRAP</criterion>
+			<criterion attribute="EventDisplayName">Microsoft-Windows-FailoverClustering*|MSExchangeTransport_*|Dell_Storage_*|cpq*|NetmonStoppedByScript</criterion>
+		</filterconfig>
+	</nlconfig>
+</ics_config>

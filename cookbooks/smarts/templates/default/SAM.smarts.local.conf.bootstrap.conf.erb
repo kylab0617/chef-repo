@@ -1,0 +1,377 @@
+
+# bootstrap.conf - Bootstrap file for Consolidation Server
+#
+# Copyright 2001-2006 by EMC Corporation ("EMC").
+# All rights reserved.
+#
+# UNPUBLISHED CONFIDENTIAL AND PROPRIETARY PROPERTY OF EMC.  The copyright
+# notice above does not evidence any actual or intended publication of this
+# software.  Disclosure and dissemination are pursuant to separate
+# agreements.  Unauthorized use, distribution or dissemination are strictly
+# prohibited.
+
+# RCS $Id: bootstrap.conf,v 1.32.2.5.6.1.18.3.4.1.14.7 2009/04/07 19:59:36 sstewart Exp $
+
+ICF_PersistenceManager::ICF-PersistenceManager
+{
+	persistentClasses =
+	{
+                "ICIM_ManagedElement",      # ICIM managed objects
+                "ICS_Notification",         # Notifications
+                "ICF_GroupSelector",        # Group matching criteria
+                "Recipient",                # Action recipients
+                "ICS_NLManager",            # NL manager
+                "ICS_NotificationList",     # Notification Lists
+                "ICS_UserProfile",          # User Profiles
+                "ICS_User",                 # User 
+                "ICF_CriteriaORSet",        # Criteria OR Set
+                "ICF_Criteria",             # Filters
+                "ICS_ASLFileCriteria",      # ASL filters
+                "ICS_ActionManager",        # Action manager
+                "ICS_ProgramAction",        # Actions
+                "ICS_ServerProgramAction",  # Server Actions
+                "ICS_ClientProgramAction",  # Client Actions
+                "ICS_AutoProgramAction",    # Auto Actions
+                "ICS_AutoActionManager",    # Auto action manager
+                "ICS_AutoActionPolicy",     # Auto action policy objects
+                "ICS_AutoActionPath",       # Auto action path objects
+                "ICS_AutoActionLevel",      # Auto action level objects
+                "DXA_Base",                 # DXA Topology classes
+                "ICS_ProxyBase",            # Proxy domain classes
+                "MapManager",               # Map Manager class
+                "Map_ConfType",             # Config Map Types
+                "TopoBuilder",              # Topo Builder class
+                "ICS_ConsoleOperation",     # Class representing UI operation
+                "ICS_ConsoleOperationGroup",# A group of UI operations
+                "ICS_Config",               # Configuration objects
+                "ICS_FeatureVersion",       # Versioning objects
+                "ICS_InMaint",              # InMaint
+                "ICS_OperationalOptions",   # Options that affect how SAM operates
+                "ICS_ThirdPartySupport",    # Support data for third party tools
+                "DXA_TopologySourceFactory"
+	}
+	checkpointPeriod = 3600
+}
+
+call SM-System loadModel "sm_ics_core"
+call SM-System loadModel "sm_ics_ems"
+call SM-System loadModel "sm_ics_user"
+call SM-System loadModel "sm_ics_rsm"
+call SM-System loadModel "sm_ics_actions"
+call SM-System loadModel "sm_ics_autoaction"
+call SM-System loadModel "sm_ics_conf"
+call SM-System loadModel "sm_ics_map"
+call SM-System loadModel "sm_actions"
+call SM-System loadModel "sm_xml_conf_core"
+call SM-System loadModel "sm_xml_conf_err"
+call SM-System loadModel "sm_ics_xml_conf"
+call SM-System loadModel "sm_map_manager"
+call SM-System loadModel "sm_map_xmlconfig"
+call SM-System loadModel "sm_ics_migration"
+call SM-System loadModel "sm_conf_map"
+call SM-System loadModel "sm_adm"
+call SM-System loadModel "NotifConfigInfo"
+
+# sm_sam_common contains the code for FastDXA and for speeding up some console operations.
+# However, it contains a different version of the clsss DXA_TopologySourceFactory than the 
+# previous version provided in Smarts.  If you want to get the older version, you must 
+# comment out the following line, so the new library will not be loaded.
+call SM-System loadModel "sm_sam_common"
+
+DXA_TopologySourceFactory::DXA-TopologySourceFactory
+{
+}
+
+ConsoleOperationConfigHandler::ConsoleOperation-ConfigHandler
+{
+}
+
+ConsoleOperationGroupConfigHandler::ConsoleOperationGroup-ConfigHandler
+{
+}
+
+AutoActionPolicyConfigHandler::AutoActionPolicy-ConfigHandler
+{
+}
+
+NLConfigHandler::NL-ConfigHandler
+{
+}
+
+ActionConfigHandler::Action-ConfigHandler
+{
+}
+
+UserProfileConfigHandler::UserProfile-ConfigHandler
+{
+}
+
+UserConfigHandler::User-ConfigHandler
+{
+}
+
+DomainHandler::Domain-Handler
+{
+}
+
+MaintHandler::Maint-Handler
+{
+}
+
+DomainTypeHandler::DomainType-Handler
+{
+}
+
+DomainTagHandler::DomainTag-Handler
+{
+}
+
+DomainGroupHandler::DomainGroup-Handler
+{
+}
+
+DomainConfigHandler::Domain-ConfigHandler
+{
+    SendsDomainXMLTo      = Domain-Handler
+    SendsDomainTypeXMLTo  = DomainType-Handler
+    SendsDomainTagXMLTo   = DomainTag-Handler
+    SendsDomainGroupXMLTo = DomainGroup-Handler
+    reconfigureThreads    = 1
+}
+
+SystemDefaultsConfigHandler::SystemDefaults-ConfigHandler
+{
+}
+
+BusinessConfigHandler::Business-ConfigHandler
+{
+}
+
+MapGifHandler::MapGif-Handler
+{
+}
+
+MapTypeHandler::MapType-Handler
+{
+}
+
+MapTopoHandler::MapTopo-Handler
+{
+}
+
+InstanceMapTypeHandler::InstanceMapType-Handler
+{
+}
+
+BIMWeightsHandler::BIM-WeightsHandler
+{
+}
+
+BIMTopologyHandler::BIM-TopologyHandler
+{
+}
+
+BIMEventFilterHandler::BIM-EventFilterHandler
+{
+}
+
+ICS_NotificationFactory::ICS-NotificationFactory
+{
+}
+
+ICS_InMaint::ICS-InMaint
+{
+}
+
+ICF_TopologyManager::ICF-TopologyManager
+{
+}
+
+ICF_PolicyManager::ICF-PolicyManager
+{
+}
+
+ICIM_ObjectFactory::ICIM-ObjectFactory
+{
+}
+
+ICS_DomainProxyManager::ICS-DomainProxyManager
+{
+}
+
+ICS_Weights::ICS-Weights
+{
+}
+
+BIM_EventFilter::BIM-EventFilter
+{
+}
+
+MapManager::Map-Manager
+{
+}
+
+TopoBuilder::Topo-Builder
+{
+}
+
+ICS_ConfigurationManager::ICS-ConfigurationManager
+{
+    xmlTagName  = "ics_config"
+    dtdName     = "ics-config.dtd"
+    Manages += NL-ConfigHandler
+    Manages += UserProfile-ConfigHandler
+    Manages += User-ConfigHandler
+    Manages += Action-ConfigHandler
+    Manages += AutoActionPolicy-ConfigHandler
+    Manages += ConsoleOperation-ConfigHandler
+    Manages += ConsoleOperationGroup-ConfigHandler
+    Manages += Domain-ConfigHandler
+    Manages += SystemDefaults-ConfigHandler
+    Manages += Business-ConfigHandler
+    Manages += MapGif-Handler
+    Manages += MapType-Handler
+    Manages += MapTopo-Handler
+    Manages += InstanceMapType-Handler
+    Manages += BIM-WeightsHandler
+    Manages += BIM-TopologyHandler
+    Manages += BIM-EventFilterHandler
+    Manages += Maint-Handler
+}
+
+Service_Assurance_Manager::Feature-SAM
+{
+        DisplayName     = "EMC Smarts Service Assurance Manager"
+        Description     = "Manages EMC Smarts Applications"
+        Vendor          = "EMC Smarts"
+        Version         = "8.0"
+        RuleSet         = "ics/ics-init.asl"
+}
+
+XML_Config_Manager::Feature-XML_CONFIG_MGR
+{
+        DisplayName     = "Configuration Manager For EMC Smarts Service Assurance Manager"
+        Description     = "Configures Server Entities"
+        Vendor          = "EMC Smarts"
+        Version         = "8.0"
+}
+
+Business_Impact_Manager::Feature-BUSINESS
+{
+        DisplayName     = "Business Impact Manager"
+        Description     = "Enables Business Impact Capabilities"
+        Vendor          = "EMC Smarts"
+        Version         = "8.0"
+#        RuleSet         = "ics/ics-group.asl"
+}
+
+BIM_Manager::BIM-Manager
+{
+}
+
+Application_Service_Map::Feature-ASMMAP
+{
+        DisplayName     = "Application Service Map"
+        Description     = "Enables Application Service Maps"
+        Vendor          = "EMC Smarts"
+        Version         = "8.0"
+}
+
+Automatic_Actions::Feature-AUTOACTION
+{
+        DisplayName     = "Automatic Actions "
+        Description     = "Enables Automatic Actions"
+        Vendor          = "EMC Smarts"
+        Version         = "8.0"
+}
+
+SAM_Summary_View::Feature-SUMMARY
+{
+        DisplayName     = "Summary Views"
+        Description     = "Enables Summary View"
+        Vendor          = "EMC Smarts"
+        Version         = "8.0"
+}
+
+SAM_Status_Table_View::Feature-STATUSVIEW
+{
+        DisplayName     = "Status Views"
+        Description     = "Enables Status/Grid View"
+        Vendor          = "EMC Smarts"
+        Version         = "8.0"
+}
+
+SAM_Viewlets::Feature-VIEWLETS
+{
+        DisplayName     = "SAM Viewlets"
+        Description     = "Enables SAM Viewlets"
+        Vendor          = "EMC Smarts"
+        Version         = "8.0"
+}
+
+SAM_WebConsole::Feature-WEBCONSOLE
+{
+        DisplayName     = "SAM Web Console"
+        Description     = "Enables SAM Web Console"
+        Vendor          = "EMC Smarts"
+        Version         = "8.0"
+}
+
+#
+# NOTIF event/notification processing features. The ASL script is written to
+# check Notif_Settings::Notif-Settings::Active. If TRUE, load the Java Virtual
+# Machine interface and start NOTIF Processor. You can use the NOTIF Editor
+# program to attach to a running SAM/OI server and update the Active attribute,
+# or modify the Notif_Settings instance directly via dmctl, ASL, etc.
+#
+Feature_NOTIF::Feature-NOTIF
+{
+       RuleSet = "ics/Notif-init.asl"
+}
+
+#
+# NOTIF Processor's interface objects. These instances have "well-known" names.
+# In other words, if you change the name of these instances, NOTIF Processor
+# will not function properly.
+#
+notifInterface::notifEventQueue
+notifInterface::notifPublicationQueue
+notifProcessorInterface::singletonNotifProcessorInterface
+Notif_Settings::Notif-Settings
+
+
+#
+# Load standard containment definitions from icim-core
+#
+
+GA_Driver::Map-Containment-Driver
+{
+	ReadsRulesFrom = GA_RuleSet::Map-Containment-RS
+		  	 { fileName = "import.asl" }
+	ReadsInputFrom = GA_FileFE::Map-Containment-FE
+			 { fileName = "$SM_SITEMOD/conf/maps/MAP-CONTAINMENT.import" }
+	waitForCompletion = TRUE
+}
+call Map-Containment-Driver start
+
+#
+# Load sm_migration driver
+#
+
+GA_Driver::SM_Migration-Driver
+{
+        ReadsRulesFrom = GA_RuleSet::SM_Migration-Driver-RS
+                         { fileName = "ics/parseAll.asl" }
+        ReadsInputFrom = GA_ProgramFE::SM_Migration-Driver-FE
+        waitForCompletion = TRUE
+}
+
+
+# These variables describe the formatting of this file.  If you don't like the
+# template defaults, feel free to change them here (not in your .emacs file).
+#
+# Local Variables:
+# mode: Makefile
+# comment-column: 32
+# fill-column: 79
+# End:

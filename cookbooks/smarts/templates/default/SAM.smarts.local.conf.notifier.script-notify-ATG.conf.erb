@@ -1,0 +1,89 @@
+# script-notify.conf - Configuration for the script notification adapter
+#
+# Copyright (C) 2001 System Management ARTS (SMARTS)
+# All Rights Reserved
+#
+# $Id: //depot/smarts/dmt/dev/7.2/gna/script/script-notify.conf#1 $
+#
+
+GNA_Notifier::script-Notifier
+{
+    #
+    # Name of the SAM Server from which to receive notifications.
+    #
+    serverName = "<%=node['smarts']['gereral']['customerId']%>-SAM"
+
+    ConfiguredBy = ScriptConfiguration::Script-Configuration
+    {
+         #
+         # Base name of script to execute; cannot contain path separators.
+         # Actual script file is BASEDIR/local/actions/scriptName, which
+         # must have appropriate read and execute permissions.
+         #
+        scriptName = "Script-<%=node['smarts']['gereral']['customerId']%>-ATG.sh"
+    }
+
+    ReadsInputFrom = GA_SubscriberFE::script-Subscriber-FrontEnd
+    {
+         #
+         # How long, in seconds, an event must remain active before the 
+         # adapter sends a notification.
+         #
+         eventSmoothingInterval = 240
+
+         #
+         # Notification threshold; discard notifications with a certainty
+         # below this value, which should be between 0.0 and 1.0.
+         #
+         minimumCertainty = 0.01
+
+         #
+         # Subscriptions.
+         #
+         SubscribesTo = 
+         {
+              #
+              # Choice subscription.
+              #
+#              GA_ChoiceSubscription::script-All-Problems-Subscriptions
+#              {
+#                       className = ".*"
+#                    instanceName = ".*"
+#                       eventName = ".*"
+#                        problems = TRUE
+#                      aggregates = FALSE
+#                        symptoms = FALSE
+#              }
+
+              #
+              # NL subscription.
+              #
+              GA_NLSubscription::script-Default-NL-Subscriptions
+              {
+                       NLName = "ATG"
+              }
+
+#              #
+#              # Profile subscription.
+#              #
+#              GA_ProfileSubscription::script-Default-Profile-Subscriptions
+#              {
+#                   profileName = "default"
+#              }
+	 }
+    }
+
+    #
+    # How long, in seconds, to ignore notifications from the server after it
+    # connects.  Use this parameter to avoid receiving the initial flood of
+    # notifications when the server (re)connects.
+    #
+    initialEventDelay = 180
+}
+
+#
+# Local Variables:
+# mode: Makefile
+# comment-column: 32
+# fill-column: 79
+# End:
