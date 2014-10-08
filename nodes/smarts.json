@@ -1,0 +1,113 @@
+{
+  "name": "smarts.bmc.lab.com",
+  "chef_environment": "_default",
+  "normal": {
+    "smarts": {
+      "general": {
+        "customerId": "KYLAB"
+      },
+      "broker": {
+        "brokerHostResolution": "smarts.bmc.lab.com",
+        "host": "localhost",
+        "port": 426
+      },
+      "CONSOLE": {
+        "CONSOLE": {
+          "active": "true"
+        },
+        "NOTIF": {
+          "active": "true"
+        },
+        "SERVICE_DASHBOARD": {
+          "active": "true"
+        }
+      },
+      "ESM": {
+        "SERVICE_ESM_Server": {
+          "active": "false"
+        },
+        "ESM": {
+          "active": "true"
+        }
+      },
+      "IP": {
+        "AM_PM_DISCOVERY": {
+          "active": "true"
+        },
+        "SERVICE_AM": {
+          "active": "false"
+        },
+        "SERVICE_AM_PM": {
+          "active": "false"
+        },
+        "SERVICE_BROKER": {
+          "active": "false"
+        },
+        "SERVICE_CM": {
+          "active": "false"
+        },
+        "SERVICE_PM": {
+          "active": "false"
+        }
+      },
+      "NPM": {
+        "NPM": {
+          "active": "true"
+        },
+        "SERVICE_BGP": {
+          "active": "false"
+        },
+        "SERVICE_EIGRP": {
+          "active": "false"
+        },
+        "SERVICE_ISIS": {
+          "active": "false"
+        },
+        "SERVICE_OSPF": {
+          "active": "false"
+        }
+      },
+      "SAM": {
+        "SAM_SUITE": {
+          "active": "true"
+        },
+        "SERVICE_BROKER": {
+          "active": "true"
+        },
+        "SERVICE_ICOI": {
+          "active": "false"
+        },
+        "SERVICE_MBIM": {
+          "active": "false"
+        },
+        "SERVICE_SAM": {
+          "active": "false"
+        },
+        "SERVICE_TRAP": {
+          "active": "false"
+        },
+        "SERVICE_UIM": {
+          "active": "false"
+        }
+      },
+      "VoIP": {
+        "SERVICE_VOIP_ADAPTER": {
+          "active": "false"
+        }
+      }
+    },
+    "snmp": {
+      "syslocationVirtual":"Lab",
+      "syslocationPhysical":"KY-Lab",
+      "syscontact": "Admin <kylab0617@gmail.com>"
+    },
+    "tags": [
+
+    ]
+  },
+  "run_list": [
+    "recipe[snmp]",
+    "recipe[smarts]"
+  ]
+}
+
